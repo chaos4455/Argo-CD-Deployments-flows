@@ -69,7 +69,7 @@ spec:
       targetPort: 80
   type: LoadBalancer
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: apache-hpa
