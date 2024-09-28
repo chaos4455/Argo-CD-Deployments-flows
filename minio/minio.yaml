@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          ports:
+            - containerPort: 9000  # Porta para o MinIO
+            - containerPort: 9001  # Porta para o console do MinIO
+          env:
+            - name: MINIO_ACCESS_KEY
+              value: "minioadmin"  # Chave de acesso
+            - name: MINIO_SECRET_KEY
+              value: "minioadmin"  # Chave secreta
+          command: ["minio", "server", "/data", "--console-address", ":9001"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+spec:
+  type: NodePort  # Expondo o serviço como NodePort
+  ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30000  # Porta do NodePort
+      protocol: TCP
+    - port: 9001
+      targetPort: 9001
+      nodePort: 30001  # Porta do console do MinIO
+      protocol: TCP
+  selector:
+    app: minio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-loadbalancer
+spec:
+  type: LoadBalancer  # Expondo o serviço como LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+    - port: 9001
+      targetPort: 9001
+      protocol: TCP
+  selector:
+    app: minio
