@@ -9,7 +9,7 @@ metadata:
   name: apache-deployment
   namespace: argo-apache-deployment
 spec:
-  replicas: 1  # Ajuste conforme necessário
+  replicas: 20  # Ajuste conforme necessário
   selector:
     matchLabels:
       app: apache
