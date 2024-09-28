@@ -46,11 +46,13 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 22
+    - name: ssh
+      port: 22
       targetPort: 22
-      nodePort: 30022  # Pode ser alterado, apenas um exemplo
-    - port: 7777
+      nodePort: 30022  # Porta NodePort para SSH
+    - name: app-port
+      port: 7777
       targetPort: 7777
-      nodePort: 30777  # Pode ser alterado, apenas um exemplo
+      nodePort: 30777  # Porta NodePort para o aplicativo
   selector:
     app: ubuntu-python-node
