@@ -9,7 +9,7 @@ metadata:
   name: apache-deployment
   namespace: argo-apache-deployment
 spec:
-  replicas: 20  # Ajuste conforme necessário
+  replicas: 1  # Definir como o mínimo de réplicas
   selector:
     matchLabels:
       app: apache
@@ -23,6 +23,11 @@ spec:
         image: httpd:latest  # Imagem do Apache
         ports:
         - containerPort: 80   # Porta do Apache
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -57,3 +62,20 @@ spec:
             name: apache-service  # Nome do serviço LoadBalancer
             port:
               number: 80
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: apache-scaledobject
+  namespace: argo-apache-deployment
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: apache-deployment
+  minReplicaCount: 1  # Número mínimo de réplicas
+  maxReplicaCount: 20  # Número máximo de réplicas
+  triggers:
+  - type: cpu
+    metadata:
+      type: "Utilization"
+      value: "10"  # Escala 2 pods para cada 10% de utilização de CPU a mais
