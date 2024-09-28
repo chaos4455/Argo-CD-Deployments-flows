@@ -38,21 +38,6 @@ spec:
       protocol: TCP
   type: LoadBalancer  # LoadBalancer para exposição pública
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: apache-nodeport-service
-  namespace: argo-apache-deployment
-spec:
-  type: NodePort  # Tipo NodePort para acesso nos nós do cluster
-  ports:
-    - port: 80        # Porta exposta
-      targetPort: 80  # Porta dentro do container
-      protocol: TCP
-      nodePort: 30080 # Porta específica no nó (ajustável)
-  selector:
-    app: apache
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
