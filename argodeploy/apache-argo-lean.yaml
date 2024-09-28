@@ -9,7 +9,7 @@ metadata:
   name: apache-deployment
   namespace: argo-apache-deployment
 spec:
-  replicas: 1  # Pode ser ajustado conforme necessário
+  replicas: 1  # Ajuste conforme necessário
   selector:
     matchLabels:
       app: apache
@@ -30,9 +30,45 @@ metadata:
   name: apache-service
   namespace: argo-apache-deployment
 spec:
-  type: LoadBalancer  # Pode ser alterado para ClusterIP se necessário
+  selector:
+    app: apache
   ports:
     - port: 80
       targetPort: 80
+      protocol: TCP
+  type: LoadBalancer  # LoadBalancer para exposição pública
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-nodeport-service
+  namespace: argo-apache-deployment
+spec:
+  type: NodePort  # Tipo NodePort para acesso nos nós do cluster
+  ports:
+    - port: 80        # Porta exposta
+      targetPort: 80  # Porta dentro do container
+      protocol: TCP
+      nodePort: 30080 # Porta específica no nó (ajustável)
   selector:
     app: apache
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apache-ingress
+  namespace: argo-apache-deployment
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: apache.example.com  # Substitua pelo seu domínio ou IP
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache-service  # Nome do serviço LoadBalancer
+            port:
+              number: 80
