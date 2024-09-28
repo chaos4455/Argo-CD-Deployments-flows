@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argo-nginx-test-server
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: argo-nginx-test-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+        volumeMounts:
+        - name: nginx-storage
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: nginx-storage
+        emptyDir:
+          sizeLimit: "200Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: argo-nginx-test-server
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: argo-nginx-test-server
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: nginx.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: nginx-scaledobject
+  namespace: argo-nginx-test-server
+spec:
+  scaleTargetRef:
+    name: nginx-deployment
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "50"  # Escala quando CPU ultrapassar 50%
