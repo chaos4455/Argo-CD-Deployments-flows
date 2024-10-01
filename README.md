@@ -52,6 +52,30 @@ O repositório cobre múltiplos cenários, como:
 - `nginx/`: Exemplo de deploy com **Nginx** e escalabilidade via KEDA.
   - [nginx.yaml](https://github.com/chaos4455/Argo-CD-Deployments-flows/blob/main/nginx/nginx.yaml): Deploy de Nginx com Ingress e auto-escalabilidade.
 
+## 🎯 Exemplo da ação de upscaling e downscaling em tempo real 
+![K8Studio_OFyxsvQOPn](https://github.com/user-attachments/assets/0658d214-950e-49ee-8988-37b6e4257c22)
+![K8Studio_N3JdBkzOkz](https://github.com/user-attachments/assets/c8fd24c8-1806-4035-a6a6-8551b80fffdb)
+![K8Studio_Icn22lOnK9](https://github.com/user-attachments/assets/50c2c329-d391-4cf5-8592-0cce5b381192)
+![K8Studio_BrV0OWA4pA](https://github.com/user-attachments/assets/78cbfa0a-a251-4f5c-a833-5c8bf4eb5d53)
+![K8Studio_a5rJY0O4Bn](https://github.com/user-attachments/assets/c26989ec-ef10-4e3e-8bd3-54eb6e4bacfc)
+
+
+## 🎯 Exemplo de upscaling e downscaling do apache 
+
+![K8Studio_9RKrqsVnLP](https://github.com/user-attachments/assets/11582bf0-e5f7-4e20-8bac-965173c51d4c)
+![K8Studio_9pxzZpBXq4](https://github.com/user-attachments/assets/f8b12f52-c585-4c20-9dba-f51f86b4c5c2)
+![K8Studio_h3cL91Zy13](https://github.com/user-attachments/assets/e64227f9-1f49-47fa-8e7c-14c7962658d8)
+![K8Studio_jRnHIqOd3X](https://github.com/user-attachments/assets/4bb3ecf3-6737-412f-827b-7adb729eab82)
+![K8Studio_hn9bRtesrS](https://github.com/user-attachments/assets/2eea0df2-cf9e-4ed1-9a57-f6f8f061144a)
+
+## 🎯 Exemplo de upscaling e downscaling do visto dentro do argocd 
+
+![chrome_uAgleGCnKq](https://github.com/user-attachments/assets/2dfea64d-8b7e-4d50-9493-3b4dedfdabaa)
+![chrome_OOUhtZ3QHL](https://github.com/user-attachments/assets/8b545f1b-9fcf-49bd-a6e6-5df5d37c83b8)
+![chrome_uW7jeHFq3r](https://github.com/user-attachments/assets/515a6f48-0540-4834-a8a3-af64bb88cadb)
+![chrome_adp9QPLTin](https://github.com/user-attachments/assets/e4483549-6ea5-4eda-a12d-7ce8c63d07cd)
+![chrome_Yd4nQdpRWP](https://github.com/user-attachments/assets/cc3e1dca-a8af-41d4-a24e-ba73875dd249)
+
 ---
 
 ## 🧰 Como Usar
